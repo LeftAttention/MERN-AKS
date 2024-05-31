@@ -41,25 +41,25 @@ CMD ["node", "index.js"]
 Open a terminal and run the following commands to build Docker images for both services:
 
 ```bash
-docker build -t <acr-name>.azurecr.io/helloservice:latest ./helloService
-docker build -t <acr-name>.azurecr.io/profileservice:latest ./profileService
+docker build -t myappacr.azurecr.io/helloservice:latest ./helloService
+docker build -t myappacr.azurecr.io/profileservice:latest ./profileService
 ```
 
-Replace `<acr-name>` with the name of your Azure Container Registry.
+Replace `myappacr` with the name of your Azure Container Registry.
 
 ### Push Images to ACR
 
 Authenticate to your ACR:
 
 ```bash
-az acr login --name <acr-name>
+az acr login --name myappacr
 ```
 
 Push the built images:
 
 ```bash
-docker push <acr-name>.azurecr.io/helloservice:latest
-docker push <acr-name>.azurecr.io/profileservice:latest
+docker push myappacr.azurecr.io/helloservice:latest
+docker push myappacr.azurecr.io/profileservice:latest
 ```
 
 ## Step 3: Deploy on AKS
@@ -69,7 +69,7 @@ docker push <acr-name>.azurecr.io/profileservice:latest
 If not already created, set up an AKS cluster via Azure CLI:
 
 ```bash
-az aks create --resource-group <resource-group-name> --name <cluster-name> --node-count 2 --enable-addons monitoring --generate-ssh-keys
+az aks create --resource-group myapp-rg --name myapp-aks --node-count 2 --enable-addons monitoring --generate-ssh-keys
 ```
 
 ### Configure kubectl
@@ -77,7 +77,7 @@ az aks create --resource-group <resource-group-name> --name <cluster-name> --nod
 Connect your local `kubectl` to the AKS cluster:
 
 ```bash
-az aks get-credentials --resource-group <resource-group-name> --name <cluster-name>
+az aks get-credentials --resource-group myapp-rg --name myapp-aks
 ```
 
 ### Deploy Services
